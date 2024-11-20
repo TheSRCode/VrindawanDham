@@ -3,6 +3,8 @@ package com.teerth.vrindawandham.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -13,9 +15,16 @@ public class SecurityConfigVrn {
 
         http.csrf(csrf -> csrf.disable())
                 .authorizeRequests()
-                .requestMatchers("/home",".login","/**").permitAll()
+                .requestMatchers("/home","/login","/**").permitAll()
                 .anyRequest().authenticated();  // Require authentication for other endpoints
 
         return http.build();
     }
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
 }
